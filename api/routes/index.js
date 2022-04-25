@@ -15,8 +15,6 @@ router.get("/", async (req, res, next) =>{
   try{
     const allAppointments = await appointment.getAllAppointments()
     res.status(200).json({
-      ok: true,
-      message: "All Appointments",
       payload: allAppointments
     })
   }catch(error){
@@ -37,14 +35,31 @@ router.post("/appointments", async (req, res, next) => {
   }
 })
 
-router.delete("/appointments/:id", (req, res, next) => {
+router.delete("/appointments/:id", async (req, res, next) => {
+
   const { id } = req.params
   const _id = ObjectID(id)
 
-  req.collection.deleteOne(_id)
-  .then(result => res.json(result))
-  .catch(error => res.send(error))
-
+  try{
+    const appointmentToDelete = await appointment.deleteAppointment(_id)
+    res.status(200).json({
+      ok: true, 
+      message: "Appointment Deleted", 
+      payload: appointmentToDelete
+    })
+  }catch(error){
+    next(error)
+  }
 })
+
+// router.delete("/appointments/:id", (req, res, next) => {
+//   const { id } = req.params
+//   const _id = ObjectID(id)
+
+//   req.collection.deleteOne(_id)
+//   .then(result => res.json(result))
+//   .catch(error => res.send(error))
+
+// })
 
 module.exports = router;

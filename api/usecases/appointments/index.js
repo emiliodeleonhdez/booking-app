@@ -6,11 +6,20 @@ const createAppointment = async (newAppointment) => {
     return saveAppointment
 }
 
+// const getAllAppointments = async () => {
+//     return await Appointment.find({}).exec()
+// }
+
 const getAllAppointments = async () => {
     return await Appointment.find({}).exec()
 }
 
+const deleteAppointment = async (id) => {
+    return await Appointment.findByIdAndDelete(id).exec()
+}
+
 module.exports = {
     createAppointment,
-    getAllAppointments
+    getAllAppointments,
+    deleteAppointment
 }
